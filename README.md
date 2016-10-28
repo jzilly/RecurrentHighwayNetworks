@@ -3,7 +3,7 @@
 *What?*
 
 This repository contains code accompanying the paper [Recurrent Highway Networks](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks") (RHNs). 
-RHNs are an extension of [Long Short Term Memory](ftp://ftp.idsia.ch/pub/juergen/lstm.pdf) Networks with [forget gates](ftp://ftp.idsia.ch/pub/juergen/FgGates-NC.pdf) to enable the learning of deep recurrent state transitions.
+RHNs are an extension of [Long Short Term Memory](http://bioinf.jku.at/publications/older/2604.pdf) Networks with [forget gates](https://pdfs.semanticscholar.org/1154/0131eae85b2e11d53df7f1360eeb6476e7f4.pdf) to enable the learning of deep recurrent state transitions.
 We provide implementations in Tensorflow, Torch7 and Brainstorm libraries, and welcome additional implementations from the community.
 
 *Why?*
