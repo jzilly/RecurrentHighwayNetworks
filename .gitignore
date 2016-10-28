@@ -1,0 +1,6 @@
+.idea
+*.iml
+out
+gen
+data/enwik8
+*.pyc
