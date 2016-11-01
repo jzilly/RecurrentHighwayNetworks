@@ -323,7 +323,7 @@ def main(data_path, dataset, seed, _run):
       print("Epoch: %d Train Perplexity: %.3f, Bits: %.3f" % (i + 1, train_perplexity, np.log2(train_perplexity)))
 
       valid_perplexity = run_epoch(session, mvalid, valid_data, tf.no_op(), config=val_config)
-      print("Epoch: %d Valid Perplexity (batched): %.3f, Bits: %.3f" % (i + 1, valid_perplexity, np.log2(train_perplexity)))
+      print("Epoch: %d Valid Perplexity (batched): %.3f, Bits: %.3f" % (i + 1, valid_perplexity, np.log2(valid_perplexity)))
 
       test_perplexity = run_epoch(session, mvalid, test_data, tf.no_op(), config=val_config)
       print("Epoch: %d Test Perplexity (batched): %.3f, Bits: %.3f" % (i + 1, test_perplexity, np.log2(test_perplexity)))
