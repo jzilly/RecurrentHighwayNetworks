@@ -134,6 +134,23 @@ Then you can train by running:
 $ th toch_rhn_enwik8.lua
 ```
 
+### Theano
+
+A Theano implementation for reproducing the SOTA results on the Penn Treebank dataset.
+In this implementation (which closely follows the Tensorflow one) two configuration options are added:
+* Whether the same dropout masks are used for both the H and T non-linear transforms.
+* How all biases other than T's bias are initialized: uniformly (as in the Tensorflow implementation) or with zeros.
+
+#### Requirements
+
+[Theano](http://deeplearning.net/software/theano/install.html) and [Sacred](https://github.com/IDSIA/sacred).
+
+#### Usage
+
+```bash
+$ python theano_rhn_ptb.py
+```
+
 ### Brainstorm
 
 An RHN layer implementation is also provided in [Brainstorm](https://github.com/IDSIA/brainstorm). 
