@@ -48,6 +48,7 @@ class Model(object):
         config.init_T_bias, config.init_other_bias,
         config.tied_noise)
       rhn_updates += sticky_state_updates
+      inputs = y
 
     noise_o = self.get_dropout_noise((config.batch_size, config.hidden_size), config.drop_o)
     outputs = self.apply_dropout(y, tt.shape_padleft(noise_o))               # (num_steps, batch_size, hidden_size)
@@ -60,7 +61,7 @@ class Model(object):
     # probabilities and prediction loss
     flat_logits = logits.reshape((config.batch_size * config.num_steps, config.vocab_size))
     flat_probs = tt.nnet.softmax(flat_logits)
-    flat_targets = targets.flatten()                                         # (batch_size * num_steps,)
+    flat_targets = targets.T.flatten()                                       # (batch_size * num_steps,)
     xentropies = tt.nnet.categorical_crossentropy(flat_probs, flat_targets)  # (batch_size * num_steps,)
     pred_loss = xentropies.sum() / config.batch_size
 
