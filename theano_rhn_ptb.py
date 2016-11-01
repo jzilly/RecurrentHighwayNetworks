@@ -7,6 +7,7 @@ References:
 [1] Zilly, J, Srivastava, R, Koutnik, J, Schmidhuber, J., "Recurrent Highway Networks", 2016
 [2] Gal, Y, "A Theoretically Grounded Application of Dropout in Recurrent Neural Networks", 2015.
 [3] Zaremba, W, Sutskever, I, Vinyals, O, "Recurrent neural network regularization", 2014.
+[4] Press, O, Wolf, L, "Using the Output Embedding to Improve Language Models", 2016.
 """
 from __future__ import absolute_import, division, print_function
 
