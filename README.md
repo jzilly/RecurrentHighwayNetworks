@@ -73,7 +73,7 @@ WT refers to tying the input and output weights for regularization. See the [pap
 
 Tensorflow code for RHNs is built by heavily extending the LSTM language modeling example provided in Tensorflow.
 It supports Variational RHNs as used in the paper, which use the same dropout mask at each time step and at all layers inside the recurrence.
-Note that this implementation uses the same dropout mask for both the H and T non-linear transforms in RHNs while the Torch7 implementation uses different dropout masks for different transformations.
+Note that this implementation uses the same dropout mask for both the H and T non-linear transforms in RHNs while the Torch7 implementation uses different dropout masks for different transformations. The Theano implementation can be configured either way.
 
 #### Requirements
 
@@ -136,10 +136,13 @@ $ th toch_rhn_enwik8.lua
 
 ### Theano
 
-A Theano implementation for reproducing the SOTA results on the Penn Treebank dataset.
-In this implementation (which closely follows the Tensorflow one) two configuration options are added:
+The Theano code's configuration and usage is similar to that of the Tensorflow code.
+In this implementation two configuration options were added: 
 * Whether the same dropout masks are used for both the H and T non-linear transforms.
-* How all biases other than T's bias are initialized: uniformly (as in the Tensorflow implementation) or with zeros.
+* How all biases other than T's bias are initialized: randomly (as in the Tensorflow implementation) or with zeros (or any other fixed value).
+
+The following isn't implemented:
+* MC dropout
 
 #### Requirements
 
@@ -147,8 +150,12 @@ In this implementation (which closely follows the Tensorflow one) two configurat
 
 #### Usage
 
+As with the Tensorflow code, the SOTA results on Penn Treebank and on enwik8 (Wikipedia) can be reproduced:
 ```bash
-$ python theano_rhn_ptb.py
+$ python theano_rhn_train.py with ptb_sota
+```
+```bash
+$ python theano_rhn_train.py with enwik8_sota
 ```
 
 ### Brainstorm
