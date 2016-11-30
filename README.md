@@ -24,7 +24,7 @@ Of course, in general RHNs can also be stacked to get the best of both worlds.
 
 ### Influence of recurrence depth on performance 
 The score (perplexity) of word-level language models on the Penn Treebank dataset dramatically improves as recurrence depth increases _while keeping the model size fixed_.
-WT refers to tying the input and output weights for regularization. See the [paper](https://cs224d.stanford.edu/reports/InanKhosravi.pdf) by Inan and Khosravi for the original idea, their [paper](https://arxiv.org/abs/1611.01462) for a polished version of the original idea and the [paper](http://arxiv.org/abs/1608.05859) by Press and Wolf, published a month after the original idea, for details.
+WT refers to tying the input and output weights for regularization. This idea was independently developed by [Inan and Khosravi](https://cs224d.stanford.edu/reports/InanKhosravi.pdf) and [Press and Wolf](https://arxiv.org/abs/1608.05859). Recently, Inan et al. also posted a more detailed follow-up [paper](https://arxiv.org/abs/1611.01462).
 
 | Rec. depth| #Units/Layer | Best Validation | Test | Best Validation (WT) | Test (WT)|
 |:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
