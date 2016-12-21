@@ -21,9 +21,10 @@ class Model(object):
   
   def __init__(self, config):
 
-    self._params = []
+    self._params = []                                             # shared variables for learned parameters
+    self._sticky_hidden_states = []                               # shared variables which are reset before each epoch
     self._np_rng = np.random.RandomState(config.seed // 2 + 123)
-    self._theano_rng = RandomStreams(config.seed // 2 + 321)  # generates random numbers directly on GPU
+    self._theano_rng = RandomStreams(config.seed // 2 + 321)      # generates random numbers directly on GPU
     self._init_scale = config.init_scale
     self._is_training = tt.iscalar('is_training')
     self._lr = theano.shared(cast_floatX(config.learning_rate), 'lr')
@@ -130,6 +131,10 @@ class Model(object):
   def assign_lr(self, lr):
     self._lr.set_value(cast_floatX(lr))
 
+  def reset_hidden_state(self):
+    for sticky_hidden_state in self._sticky_hidden_states:
+      sticky_hidden_state.set_value(np.zeros_like(sticky_hidden_state.get_value()))
+
   def save(self, save_path):
     with open(save_path, 'wb') as f:
       for p in self._params:
@@ -220,9 +225,9 @@ class Model(object):
       return y_t
 
     # The recurrent hidden state of the RHN is sticky (the last hidden state of one batch is carried over to the next batch,
-    # to be used as an initial hidden state).  These states are kept in a shared variable.
+    # to be used as an initial hidden state).  These states are kept in shared variables and are reset before every epoch.
     y_0 = theano.shared(np.zeros((batch_size, hidden_size), floatX))
-    self.reset_hidden_state = lambda: y_0.set_value(np.zeros_like(y_0.get_value()))  # invoked before every epoch.
+    self._sticky_hidden_states.append(y_0)
 
     y, _ = theano.scan(step_fn,
       sequences = [i_for_H, i_for_T],
