@@ -47,9 +47,9 @@ local params = {batch_size=100,
                 max_epoch=5,
                 max_max_epoch=1000,
                 max_grad_norm=10,
-                weight_decay=1e-7,
-                recurrence_depth=5,
-		initial_bias=-4}
+                weight_decay=0,
+                recurrence_depth=10,
+		        initial_bias=-4}
 
 
 -- Yarin: use dropout from within the script rather than nn's

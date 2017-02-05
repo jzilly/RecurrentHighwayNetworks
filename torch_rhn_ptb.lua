@@ -48,7 +48,8 @@ local params = {batch_size=20,
                 max_max_epoch=1000,
                 max_grad_norm=10,
                 weight_decay=1e-7,
-                recurrence_depth=10}
+                recurrence_depth=10,
+                initial_bias=-4}
 
 
 local disable_dropout = false
@@ -72,7 +73,7 @@ local function rhn(x, prev_c, prev_h, noise_i, noise_h)
   local reshaped_noise_h = nn.Reshape(2,params.rnn_size)(noise_h)
   local sliced_noise_i   = nn.SplitTable(2)(reshaped_noise_i)
   local sliced_noise_h   = nn.SplitTable(2)(reshaped_noise_h)
-  -- Calculate gates
+  -- Calculate all two gates
   local dropped_h_tab = {}
   local h2h_tab = {}
   local t_gate_tab = {}
@@ -83,14 +84,14 @@ local function rhn(x, prev_c, prev_h, noise_i, noise_h)
     local i2h        = {}
     h2h_tab[layer_i] = {}
     if layer_i == 1 then
-      for i = 1, 2 do 
+      for i = 1, 2 do
         -- Use select table to fetch each gate
         local dropped_x         = local_Dropout(x, nn.SelectTable(i)(sliced_noise_i))
         dropped_h_tab[layer_i]  = local_Dropout(prev_h, nn.SelectTable(i)(sliced_noise_h))
         i2h[i]                  = nn.Linear(params.rnn_size, params.rnn_size)(dropped_x)
         h2h_tab[layer_i][i]     = nn.Linear(params.rnn_size, params.rnn_size)(dropped_h_tab[layer_i])
       end
-      t_gate_tab[layer_i]       = nn.Sigmoid()(nn.CAddTable()({i2h[1], h2h_tab[layer_i][1]}))
+      t_gate_tab[layer_i]       = nn.Sigmoid()(nn.AddConstant(params.initial_bias, False)(nn.CAddTable()({i2h[1], h2h_tab[layer_i][1]})))
       in_transform_tab[layer_i] = nn.Tanh()(nn.CAddTable()({i2h[2], h2h_tab[layer_i][2]}))
       c_gate_tab[layer_i]       = nn.AddConstant(1,false)(nn.MulConstant(-1, false)(t_gate_tab[layer_i]))
       s_tab[layer_i]           = nn.CAddTable()({
