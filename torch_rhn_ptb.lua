@@ -104,7 +104,7 @@ local function rhn(x, prev_c, prev_h, noise_i, noise_h)
         dropped_h_tab[layer_i]  = local_Dropout(s_tab[layer_i-1], nn.SelectTable(i)(sliced_noise_h))
         h2h_tab[layer_i][i]     = nn.Linear(params.rnn_size, params.rnn_size)(dropped_h_tab[layer_i])
       end
-      t_gate_tab[layer_i]       = nn.Sigmoid()(nn.AddConstant(params.initial_bias, False))(h2h_tab[layer_i][1])
+      t_gate_tab[layer_i]       = nn.Sigmoid()(nn.AddConstant(params.initial_bias, False)(h2h_tab[layer_i][1]))
       in_transform_tab[layer_i] = nn.Tanh()(h2h_tab[layer_i][2])
       c_gate_tab[layer_i]       = nn.AddConstant(1,false)(nn.MulConstant(-1, false)(t_gate_tab[layer_i]))
       s_tab[layer_i]           = nn.CAddTable()({
