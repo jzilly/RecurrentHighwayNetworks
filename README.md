@@ -67,7 +67,7 @@ WT refers to tying the input and output weights for regularization. This idea wa
 | [Layernorm HM-LSTM](http://128.84.21.199/abs/1609.01704)      | 35 M | 1.32      | 
 | [**RHN - Rec. depth 5**](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks") | 23 M | **1.31** | 
 | [**RHN - Rec. depth 10**](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks") | 21 M | **1.30** | 
-| [**Large RHN - Rec. depth 10**](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks") | 45 M | **1.27** | 
+| [**Large RHN - Rec. depth 10**](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks") | 46 M | **1.27** | 
 
 
 ### Wikipedia (text8) next character prediction modeling
@@ -103,10 +103,15 @@ To reproduce SOTA results on Penn Treebank:
 ```bash
 $ python rhn_train.py with ptb_sota
 ```
-To reproduce SOTA results on enwik8 (Wikipedia), first download the dataset from http://mattmahoney.net/dc/enwik8.zip and unzip it into the ```data``` directory, then run:
+To reproduce SOTA results on enwik8/text8 (Wikipedia), first download the dataset from http://mattmahoney.net/dc/enwik8.zip or for text8 http://mattmahoney.net/dc/text8.zip and unzip it into the ```data``` directory, then run:
 ```bash
 $ python rhn_train.py with enwik8_sota
 ```
+or
+```bash
+$ python rhn_train.py with text8_sota
+```
+
 Change some hyperparameters and run:
 ```bash
 $ python rhn_train.py with ptb_sota depth=20
