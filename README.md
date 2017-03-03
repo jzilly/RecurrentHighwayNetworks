@@ -51,22 +51,36 @@ WT refers to tying the input and output weights for regularization. This idea wa
 | [Ensemble of 38 large LSTMs+dropout](https://arxiv.org/abs/1409.2329) | 66 M per LSTM | 71.9 | 68.7  |
 | [Ensemble of 10 large Variational LSTMs](https://arxiv.org/abs/1409.2329) | 66 M per LSTM | - | 68.7  |
 | [**Variational RHN (depth=8)**](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks")| 32 M | **71.2** | **68.5** | 
-| [**Variational RHN + WT (depth=9)**](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks") | 24 M |  **68.1**| **66.0**   |
+| [**Variational RHN + WT (depth=10)**](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks") | 23 M |  **67.9**| **65.4**   |
 | [**Variational RHN + WT with MC dropout (depth=5)**](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks")* | 22 M | - | **64.4**| 
 
 *We used 1000 samples for MC dropout as done by Gal for LSTMs, but we've only evaluated the depth 5 model so far.
 
-### Hutter Wikipedia (enwik8) next character prediction modeling
+### Wikipedia (enwik8) next character prediction modeling
 
 | Network        | Network size | Test BPC    |
 |:-------------:|:-------------:|:-------------:|
-| [GF-RNN](http://www.jmlr.org/proceedings/papers/v37/chung15) | 20 M | 1.58  | 
 | [Grid-LSTM](http://arxiv.org/abs/1507.01526)  | 16.8 M | 1.47  | 
 | [MI-LSTM](https://arxiv.org/abs/1606.06630)      |  17 M | 1.44 |
-| [HM-LSTM](http://128.84.21.199/abs/1609.01704)      | 48 M | 1.40      | 
-| [HyperLSTM](https://arxiv.org/abs/1609.09106) | 17.9 M | 1.38 |
-| [**Variational RHN**](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks") | 27.6 M | **1.32** | 
+| [mLSTM](https://arxiv.org/abs/1609.07959) |  21 M | 1.42 |
+| [Layernorm HyperNetworks](https://arxiv.org/abs/1609.09106) | 27 M | 1.34 |
+| [Layernorm HM-LSTM](http://128.84.21.199/abs/1609.01704)      | 35 M | 1.32      | 
+| [**RHN - Rec. depth 5**](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks") | 23 M | **1.31** | 
+| [**RHN - Rec. depth 10**](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks") | 21 M | **1.30** | 
+| [**Large RHN - Rec. depth 10**](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks") | 45 M | **1.27** | 
 
+
+### Wikipedia (text8) next character prediction modeling
+
+| Network        | Network size | Test BPC    |
+|:-------------:|:-------------:|:-------------:|
+| [MI-LSTM](https://arxiv.org/abs/1606.06630)      |  17 M | 1.44 |
+| [mLSTM](https://arxiv.org/abs/1609.07959) |  10 M | 1.40 |
+| [BN LSTM](https://arxiv.org/abs/1609.09106) | 16 M | 1.36 |
+| [HM-LSTM](http://128.84.21.199/abs/1609.01704)      | 35 M | 1.32      | 
+| [Layernorm HM-LSTM](http://128.84.21.199/abs/1609.01704)      | 35 M | 1.29      | 
+| [**RHN - Rec. depth 10**](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks") | 20 M | **1.29** | 
+| [**Large RHN - Rec. depth 10**](https://arxiv.org/abs/1607.03474 "Recurrent Highway Networks") | 45 M | **1.27** | 
 
 ## CODE
 ### Tensorflow
