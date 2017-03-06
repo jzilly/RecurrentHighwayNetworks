@@ -58,9 +58,9 @@ class Model(object):
     softmax_b = tf.get_variable("softmax_b", [vocab_size])
     logits = tf.matmul(output, softmax_w) + softmax_b
     loss = tf.contrib.seq2seq.sequence_loss(
-      [logits],
-      [tf.reshape(self._targets, [-1])],
-      [tf.ones([batch_size * num_steps])])
+      logits,
+      tf.reshape(self._targets, [-1]),
+      tf.ones([batch_size * num_steps]))
     self._final_state = [s[0] for s in state]
     pred_loss = tf.reduce_sum(loss) / batch_size
     self._cost = cost = pred_loss
