@@ -50,7 +50,7 @@ class Model(object):
             tf.get_variable_scope().reuse_variables()
           (cell_output, state[l]) = cell(inputs[:, time_step, :], state[l])
           outputs.append(cell_output)
-        inputs = tf.pack(outputs, axis=1)
+        inputs = tf.stack(outputs, axis=1)
         outputs = []
 
     output = tf.reshape(inputs * self._noise_o, [-1, size])
