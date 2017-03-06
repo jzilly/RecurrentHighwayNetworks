@@ -55,7 +55,7 @@ def hyperparameters():
   elif dataset == 'text8':
     vocab_size = 27
   else:
-    raise AssertionError("Unsupported dataset! Only 'ptb',", 
+    raise AssertionError("Unsupported dataset! Only 'ptb',",
                          "'enwik8' and 'text8' are currently supported.")
 
 
@@ -86,6 +86,7 @@ def ptb_sota():
 
 @ex.named_config
 def enwik8_sota():
+  # test BPC 1.27
   data_path = 'data'
   dataset = 'enwik8'
   init_scale = 0.04
@@ -110,6 +111,7 @@ def enwik8_sota():
 
 @ex.named_config
 def text8_sota():
+  # test BPC 1.27
   data_path = 'data'
   dataset = 'text8'
   init_scale = 0.04
@@ -120,8 +122,8 @@ def text8_sota():
   lr_decay = 1.03
   weight_decay = 1e-7
   max_grad_norm = 10
-  num_steps = 100
-  hidden_size = 1000
+  num_steps = 50
+  hidden_size = 1500
   max_epoch = 5
   max_max_epoch = 500
   batch_size = 128
@@ -167,9 +169,9 @@ def get_noise(x, m, drop_x, drop_i, drop_h, drop_o):
     noise_x = np.ones((m.batch_size, m.num_steps, 1), dtype=np.float32)
 
   if keep_i < 1.0:
-    noise_i = (np.random.random_sample((m.batch_size, m.size, m.num_layers)) < keep_i).astype(np.float32) / keep_i
+    noise_i = (np.random.random_sample((m.batch_size, m.in_size, m.num_layers)) < keep_i).astype(np.float32) / keep_i
   else:
-    noise_i = np.ones((m.batch_size, m.size, m.num_layers), dtype=np.float32)
+    noise_i = np.ones((m.batch_size, m.in_size, m.num_layers), dtype=np.float32)
   if keep_h < 1.0:
     noise_h = (np.random.random_sample((m.batch_size, m.size, m.num_layers)) < keep_h).astype(np.float32) / keep_h
   else:

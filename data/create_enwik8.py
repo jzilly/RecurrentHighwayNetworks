@@ -17,7 +17,7 @@ def convert_to_batches(serial_data, length, bs):
     serial_data = np.vstack(np.hsplit(serial_data, num_batches)).T[:, :, None]
     return serial_data
 
-batch_size = 100
+batch_size = 128
 # Batch size which will be used for training.
 # Needed to maintain continuity of data across batches.
 seq_len = 50
