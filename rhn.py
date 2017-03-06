@@ -53,10 +53,12 @@ class Model(object):
         inputs = tf.stack(outputs, axis=1)
         outputs = []
 
-    output = inputs * self._noise_o
+    output = tf.reshape(inputs * self._noise_o, [-1, size])
     softmax_w = tf.transpose(embedding) if config.tied else tf.get_variable("softmax_w", [size, vocab_size])
     softmax_b = tf.get_variable("softmax_b", [vocab_size])
     logits = tf.matmul(output, softmax_w) + softmax_b
+    logits = tf.reshape(logits, [-1, 1, vocab_size])
+    
     loss = tf.contrib.seq2seq.sequence_loss(
       logits,
       tf.reshape(self._targets, [-1]),
