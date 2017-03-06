@@ -52,8 +52,11 @@ def hyperparameters():
     vocab_size = 10000
   elif dataset == 'enwik8':
     vocab_size = 205
+  elif dataset == 'text8':
+    vocab_size = 27
   else:
-    raise AssertionError("Unsupported dataset! Only 'ptb' and 'enwik8' are currently supported.")
+    raise AssertionError("Unsupported dataset! Only 'ptb',
+                         'enwik8' and 'text8' are currently supported.")
 
 
 @ex.named_config
