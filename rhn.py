@@ -64,7 +64,7 @@ class Model(object):
       self._targets,
       tf.ones([batch_size, num_steps]))
     self._final_state = [s[0] for s in state]
-    pred_loss = tf.reduce_sum(loss) / batch_size
+    pred_loss = tf.reduce_sum(loss)
     self._cost = cost = pred_loss
     if not is_training:
       return
