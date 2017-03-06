@@ -53,7 +53,7 @@ class Model(object):
         inputs = tf.stack(outputs, axis=1)
         outputs = []
 
-    output = tf.reshape(inputs * self._noise_o, [-1, size])
+    output = inputs * self._noise_o
     softmax_w = tf.transpose(embedding) if config.tied else tf.get_variable("softmax_w", [size, vocab_size])
     softmax_b = tf.get_variable("softmax_b", [vocab_size])
     logits = tf.matmul(output, softmax_w) + softmax_b
