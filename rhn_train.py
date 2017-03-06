@@ -88,22 +88,46 @@ def enwik8_sota():
   init_scale = 0.04
   init_bias = -4.0
   num_layers = 1
-  depth = 5
+  depth = 10
   learning_rate = 0.2
-  lr_decay = 1.04
+  lr_decay = 1.03
   weight_decay = 1e-7
   max_grad_norm = 10
   num_steps = 50
   hidden_size = 1500
   max_epoch = 5
   max_max_epoch = 500
-  batch_size = 100
+  batch_size = 128
   drop_x = 0.10
-  drop_i = 0.30
-  drop_h = 0.05
-  drop_o = 0.30
+  drop_i = 0.40
+  drop_h = 0.10
+  drop_o = 0.40
   tied = False
   vocab_size = 205
+
+@ex.named_config
+def text8_sota():
+  data_path = 'data'
+  dataset = 'text8'
+  init_scale = 0.04
+  init_bias = -4.0
+  num_layers = 1
+  depth = 10
+  learning_rate = 0.2
+  lr_decay = 1.03
+  weight_decay = 1e-7
+  max_grad_norm = 10
+  num_steps = 100
+  hidden_size = 1000
+  max_epoch = 5
+  max_max_epoch = 500
+  batch_size = 128
+  drop_x = 0.10
+  drop_i = 0.40
+  drop_h = 0.10
+  drop_o = 0.40
+  tied = False
+  vocab_size = 27
 
 
 @ex.capture
@@ -119,7 +143,10 @@ def get_data(data_path, dataset):
     raw_data = reader.ptb_raw_data(data_path)
   elif dataset == 'enwik8':
     from data import reader
-    raw_data = reader.hutter_raw_data(data_path)
+    raw_data = reader.enwik8_raw_data(data_path)
+  elif dataset == 'text8':
+    from data import reader
+    raw_data = reader.text8_raw_data(data_path)
   return reader, raw_data
 
 
