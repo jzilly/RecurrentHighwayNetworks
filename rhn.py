@@ -57,7 +57,7 @@ class Model(object):
     softmax_w = tf.transpose(embedding) if config.tied else tf.get_variable("softmax_w", [size, vocab_size])
     softmax_b = tf.get_variable("softmax_b", [vocab_size])
     logits = tf.matmul(output, softmax_w) + softmax_b
-    loss = tf.nn.seq2seq.sequence_loss_by_example(
+    loss = tf.contrib.seq2seq.sequence_loss(
       [logits],
       [tf.reshape(self._targets, [-1])],
       [tf.ones([batch_size * num_steps])])
