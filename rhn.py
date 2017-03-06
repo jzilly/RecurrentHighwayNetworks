@@ -226,7 +226,7 @@ def linear(args, output_size, bias, bias_start=None, scope=None):
     if len(args) == 1:
       res = math_ops.matmul(args[0], matrix)
     else:
-      res = math_ops.matmul(array_ops.concat(1, args), matrix)
+      res = math_ops.matmul(array_ops.concat(args, 1), matrix)
     if not bias:
       return res
     elif bias_start is None:
