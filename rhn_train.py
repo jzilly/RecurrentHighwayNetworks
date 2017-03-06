@@ -341,7 +341,8 @@ def main(data_path, dataset, seed, _run):
       mvalid = Model(is_training=False, config=val_config)
       mtest = Model(is_training=False, config=test_config)
 
-    tf.initialize_all_variables().run()
+    tf.global_variables_initializer().run()
+
     saver = tf.train.Saver()
     trains, vals, tests, best_val = [np.inf], [np.inf], [np.inf], np.inf
 
