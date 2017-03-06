@@ -144,7 +144,7 @@ def get_config(_config):
 
 def get_data(data_path, dataset):
   if dataset == 'ptb':
-    from tensorflow.models.rnn.ptb import reader
+    import reader
     raw_data = reader.ptb_raw_data(data_path)
   elif dataset == 'enwik8':
     from data import reader
