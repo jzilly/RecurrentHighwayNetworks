@@ -62,9 +62,10 @@ class Model(object):
     loss = tf.contrib.seq2seq.sequence_loss(
       logits,
       self._targets,
-      tf.ones([batch_size, num_steps]))
+      tf.ones([batch_size, num_steps]),
+      average_across_timesteps = False, average_across_batch = False)
     self._final_state = [s[0] for s in state]
-    pred_loss = tf.reduce_sum(loss)
+    pred_loss = tf.reduce_sum(loss) / batch_size
     self._cost = cost = pred_loss
     if not is_training:
       return
