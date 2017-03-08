@@ -52,8 +52,11 @@ def hyperparameters():
     vocab_size = 10000
   elif dataset == 'enwik8':
     vocab_size = 205
+  elif dataset == 'text8':
+    vocab_size = 27
   else:
-    raise AssertionError("Unsupported dataset! Only 'ptb' and 'enwik8' are currently supported.")
+    raise AssertionError("Unsupported dataset! Only 'ptb',",
+                         "'enwik8' and 'text8' are currently supported.")
 
 
 @ex.named_config
@@ -83,27 +86,53 @@ def ptb_sota():
 
 @ex.named_config
 def enwik8_sota():
+  # test BPC 1.27
   data_path = 'data'
   dataset = 'enwik8'
   init_scale = 0.04
   init_bias = -4.0
   num_layers = 1
-  depth = 5
+  depth = 10
   learning_rate = 0.2
-  lr_decay = 1.04
+  lr_decay = 1.03
   weight_decay = 1e-7
   max_grad_norm = 10
   num_steps = 50
   hidden_size = 1500
   max_epoch = 5
   max_max_epoch = 500
-  batch_size = 100
+  batch_size = 128
   drop_x = 0.10
-  drop_i = 0.30
-  drop_h = 0.05
-  drop_o = 0.30
+  drop_i = 0.40
+  drop_h = 0.10
+  drop_o = 0.40
   tied = False
   vocab_size = 205
+
+@ex.named_config
+def text8_sota():
+  # test BPC 1.27
+  data_path = 'data'
+  dataset = 'text8'
+  init_scale = 0.04
+  init_bias = -4.0
+  num_layers = 1
+  depth = 10
+  learning_rate = 0.2
+  lr_decay = 1.03
+  weight_decay = 1e-7
+  max_grad_norm = 10
+  num_steps = 50
+  hidden_size = 1500
+  max_epoch = 5
+  max_max_epoch = 500
+  batch_size = 128
+  drop_x = 0.10
+  drop_i = 0.40
+  drop_h = 0.10
+  drop_o = 0.40
+  tied = False
+  vocab_size = 27
 
 
 @ex.capture
@@ -119,7 +148,10 @@ def get_data(data_path, dataset):
     raw_data = reader.ptb_raw_data(data_path)
   elif dataset == 'enwik8':
     from data import reader
-    raw_data = reader.hutter_raw_data(data_path)
+    raw_data = reader.enwik8_raw_data(data_path)
+  elif dataset == 'text8':
+    from data import reader
+    raw_data = reader.text8_raw_data(data_path)
   return reader, raw_data
 
 
@@ -137,9 +169,9 @@ def get_noise(x, m, drop_x, drop_i, drop_h, drop_o):
     noise_x = np.ones((m.batch_size, m.num_steps, 1), dtype=np.float32)
 
   if keep_i < 1.0:
-    noise_i = (np.random.random_sample((m.batch_size, m.size, m.num_layers)) < keep_i).astype(np.float32) / keep_i
+    noise_i = (np.random.random_sample((m.batch_size, m.in_size, m.num_layers)) < keep_i).astype(np.float32) / keep_i
   else:
-    noise_i = np.ones((m.batch_size, m.size, m.num_layers), dtype=np.float32)
+    noise_i = np.ones((m.batch_size, m.in_size, m.num_layers), dtype=np.float32)
   if keep_h < 1.0:
     noise_h = (np.random.random_sample((m.batch_size, m.size, m.num_layers)) < keep_h).astype(np.float32) / keep_h
   else:
@@ -309,7 +341,8 @@ def main(data_path, dataset, seed, _run):
       mvalid = Model(is_training=False, config=val_config)
       mtest = Model(is_training=False, config=test_config)
 
-    tf.initialize_all_variables().run()
+    tf.global_variables_initializer().run()
+
     saver = tf.train.Saver()
     trains, vals, tests, best_val = [np.inf], [np.inf], [np.inf], np.inf
 
