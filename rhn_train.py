@@ -229,7 +229,7 @@ def evaluate(data_path, dataset, load_model):
     with tf.variable_scope("model", reuse=True, initializer=initializer):
       mvalid = Model(is_training=False, config=val_config)
       mtest = Model(is_training=False, config=test_config)
-    tf.initialize_all_variables()
+    tf.global_variables_initializer().run()
     saver = tf.train.Saver()
     saver.restore(session, load_model)
 
