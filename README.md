@@ -1,4 +1,5 @@
 # Recurrent Highway Networks
+Note: For Tensorflow 1.0, please use [this branch](https://github.com/julian121266/RecurrentHighwayNetworks/tree/tensorflow_1.0_branch).
 
 *What?*
 
