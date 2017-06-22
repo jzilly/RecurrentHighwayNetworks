@@ -8,6 +8,8 @@ References:
 [2] Gal, Y, "A Theoretically Grounded Application of Dropout in Recurrent Neural Networks", 2015.
 [3] Zaremba, W, Sutskever, I, Vinyals, O, "Recurrent neural network regularization", 2014.
 [4] Press, O, Wolf, L, "Using the Output Embedding to Improve Language Models", 2016.
+
+Implementation: Shimi Salant
 """
 from __future__ import absolute_import, division, print_function
 
@@ -19,7 +21,7 @@ import logging
 import numpy as np
 
 from sacred import Experiment
-from data.reader import data_iterator, hutter_raw_data, ptb_raw_data
+from theano_data import data_iterator, hutter_raw_data, ptb_raw_data
 from theano_rhn import Model
 
 
@@ -38,10 +40,10 @@ ex = Experiment('theano_rhn_prediction')
 ex.logger = log
 
 
+# When running with a @named_config: values specified in @named_config override those specified in @config.
+
 @ex.config
 def hyperparameters():
-  # When running with a named_config: values defined in named_config take precendence,
-  # causing assignment here to be ignored.
   data_path = 'data'
   dataset = 'ptb'
   if dataset not in ['ptb', 'enwik8']:
@@ -79,19 +81,17 @@ def ptb_sota():
 def enwik8_sota():
   dataset = 'enwik8'
   init_T_bias = -4.0
-  depth = 5
-  lr_decay = 1.04
+  lr_decay = 1.03
   num_steps = 50
   hidden_size = 1500
   max_epoch = 5
   max_max_epoch = 500
-  batch_size = 100
+  batch_size = 128
   drop_x = 0.10
-  drop_i = 0.30
-  drop_s = 0.05
-  drop_o = 0.30
+  drop_i = 0.40
+  drop_s = 0.10
+  drop_o = 0.40
   tied_embeddings = False
-  tied_noise = True
   vocab_size = 205
 
 
