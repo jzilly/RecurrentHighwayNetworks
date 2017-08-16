@@ -5,9 +5,8 @@ import numpy as np
 from tensorflow.python.ops import variable_scope as vs
 from tensorflow.python.ops import math_ops, array_ops
 from tensorflow.python.util import nest
-from tensorflow.contrib.rnn import core_rnn_cell as rnn_cell
 
-RNNCell = rnn_cell.RNNCell
+RNNCell = RNNCell = tf.nn.rnn_cell.RNNCell
 
 
 class Model(object):
