@@ -1,7 +1,11 @@
 from __future__ import absolute_import, division, print_function
 
 import numbers
-import cPickle
+
+try:
+  import cPickle
+except ImportError:
+  import _pickle
 
 import numpy as np
 
